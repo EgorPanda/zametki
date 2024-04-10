@@ -30,6 +30,26 @@ class NotesApp:
                 print("Неверный номер заметки.")
         except ValueError:
             print("Неверный формат ввода. Введите целое число.")
+    
+    def delete_note(self):
+        if not self.notes:
+            print("Нет доступных заметок для удаления.")
+            return
+        
+        self.display_all_notes()
+        note_index = input("Введите номер заметки, которую хотите удалить: ")
+        try:
+            note_index = int(note_index) - 1
+            if 0 <= note_index < len(self.notes):
+                print(f"Заметка {note_index + 1}:")
+                print(f"Приоритет: {self.notes[note_index]['priority']}")
+                print(f"Текст заметки: {self.notes[note_index]['text']}")
+                del self.notes[note_index]
+                print("Заметка успешно удалена.")
+            else:
+                print("Неверный номер заметки.")
+        except ValueError:
+            print("Неверный формат ввода. Введите целое число.")
 
    
 
@@ -39,6 +59,7 @@ class NotesApp:
 def display_menu():
     print("\nМеню:")
     print("5. Редактировать заметку")
+    print("6. Удалить заметку")
     print("9. Выход\n")
 
 def handle_choice(choice, notes_app):
@@ -47,6 +68,8 @@ def handle_choice(choice, notes_app):
     
     elif choice == '5':
         notes_app.edit_note()
+    elif choice == '6':
+        notes_app.delete_note()
     
     elif choice == '9':
         print("До свидания!")
