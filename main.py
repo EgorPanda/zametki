@@ -30,6 +30,17 @@ class NotesApp:
                 print("Неверный номер заметки.")
         except ValueError:
             print("Неверный формат ввода. Введите целое число.")
+
+    def search_note(self):
+        keyword = input("Введите ключевое слово для поиска: ")
+        found_notes = [note for note in self.notes if keyword.lower() in note["text"].lower()]
+        if found_notes:
+            print("Найденные заметки:")
+            sorted_notes = sorted(found_notes, key=lambda x: x["priority"], reverse=True)
+            for i, note in enumerate(sorted_notes, 1):
+                print(f"{i}. Приоритет: {note['priority']}, Заметка: {note['text']}")
+        else:
+            print("Заметки с указанным ключевым словом не найдены.")
     
     def delete_note(self):
         if not self.notes:
