@@ -9,17 +9,20 @@ class NotesApp:
             choice = input("Выберите действие: ")
             if not handle_choice(choice, self):
                 break
+            else:
+              print("Неверный номер заметки.")
+        except ValueError:
+            print("Неверный формат ввода. Введите целое число.")
     def display_all_notes(self):
         print("Список всех заметок:")
         sorted_notes = sorted(self.notes, key=lambda x: x["priority"], reverse=True)
         for i, note in enumerate(sorted_notes, 1):
             print(f"{i}. Приоритет: {note['priority']}, Заметка: {note['text']}")
-
+            
     def add_note(self):
         note_text = input("Введите текст заметки: ")
         self.notes.append({"text": note_text, "priority": 1})
         print("Заметка успешно добавлена!")
-
     def set_note_priority(self):
         if not self.notes:
             print("Нет доступных заметок для установки приоритета.")
@@ -40,10 +43,25 @@ class NotesApp:
                     print("Приоритет заметки успешно установлен.")
                 except ValueError:
                     print("Неверный формат ввода. Приоритет должен быть целым числом.")
-            else:
-                print("Неверный номер заметки.")
-        except ValueError:
-            print("Неверный формат ввода. Введите целое число.")
+
+    def edit_note(self):
+        if not self.notes:
+            print("Нет доступных заметок для редактирования.")
+            return
+        
+        self.display_all_notes()
+        note_index = input("Введите номер заметки, которую хотите отредактировать: ")
+        try:
+            note_index = int(note_index) - 1
+            if 0 <= note_index < len(self.notes):
+                print(f"Заметка {note_index + 1}:")
+                print(f"Приоритет: {self.notes[note_index]['priority']}")
+                print(f"Текст заметки: {self.notes[note_index]['text']}")
+                new_text = input("Введите новый текст заметки: ")
+                self.notes[note_index]["text"] = new_text
+                print("Заметка успешно отредактирована.")
+
+
 
 def display_menu():
     print("\nМеню:")
@@ -51,6 +69,8 @@ def display_menu():
     print("2. Добавить новую заметку")
     print("3. Установить приоритет заметки")
     print("4. Поиск заметки")
+    print("5. Редактировать заметку")
+    print("9. Выход\n")
 
 def handle_choice(choice, notes_app):
     if choice == '1':
@@ -61,6 +81,13 @@ def handle_choice(choice, notes_app):
         notes_app.set_note_priority()
     elif choice == '4':
         notes_app.search_note()
+    elif choice == '5':
+        notes_app.edit_note()
+    
+    elif choice == '9':
+        print("До свидания!")
+        return False
+
     else:
         print("Неверный ввод. Пожалуйста, выберите число от 1 до 9.")
     return True
@@ -68,3 +95,4 @@ def handle_choice(choice, notes_app):
 if __name__ == "__main__":
     app = NotesApp()
     app.run()
+
