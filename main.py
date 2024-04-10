@@ -51,8 +51,25 @@ class NotesApp:
         except ValueError:
             print("Неверный формат ввода. Введите целое число.")
 
-   
+    def import_notes(self):
+        self.notes.extend(import_notes())
 
+   
+def import_notes():
+    filename = input("Введите имя файла для импорта заметок: ")
+    notes = []
+    try:
+        with open(filename, "r") as file:
+            for line in file:
+                if line.strip():  # пропускаем пустые строки
+                    priority, text = line.strip().split(", ", 1)
+                    priority = int(priority.split(": ")[1])
+                    text = text.split(": ")[1]
+                    notes.append({"text": text, "priority": priority})
+        print("Заметки успешно импортированы из файла.")
+    except IOError:
+        print("Ошибка при чтении файла.")
+    return notes
 
 
 
@@ -60,6 +77,7 @@ def display_menu():
     print("\nМеню:")
     print("5. Редактировать заметку")
     print("6. Удалить заметку")
+    print("7. Импортировать заметки из файла")
     print("9. Выход\n")
 
 def handle_choice(choice, notes_app):
@@ -70,10 +88,13 @@ def handle_choice(choice, notes_app):
         notes_app.edit_note()
     elif choice == '6':
         notes_app.delete_note()
+    elif choice == '7':
+        notes_app.import_notes()
     
     elif choice == '9':
         print("До свидания!")
-        return False
+        return 
+    
     else:
         print("Неверный ввод. Пожалуйста, выберите число от 1 до 9.")
     return True
