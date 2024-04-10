@@ -24,12 +24,15 @@ def display_menu():
     print("\nМеню:")
     print("1. Просмотреть все заметки")
     print("2. Добавить новую заметку")
+    print("3. Установить приоритет заметки")
     
 def handle_choice(choice, notes_app):
     if choice == '1':
         notes_app.display_all_notes()
     elif choice == '2':
         notes_app.add_note()
+    elif choice == '3':
+        notes_app.set_note_priority()
     else:
         print("Неверный ввод. Пожалуйста, выберите число от 1 до 9.")
     return True
