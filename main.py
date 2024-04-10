@@ -53,6 +53,9 @@ class NotesApp:
 
     def import_notes(self):
         self.notes.extend(import_notes())
+    
+    def export_notes(self):
+        export_notes(self.notes)
 
    
 def import_notes():
@@ -71,6 +74,16 @@ def import_notes():
         print("Ошибка при чтении файла.")
     return notes
 
+def export_notes(notes):
+    filename = input("Введите имя файла для экспорта заметок: ")
+    try:
+        with open(filename, "w") as file:
+            for note in notes:
+                file.write(f"Приоритет: {note['priority']}, Заметка: {note['text']}\n")
+        print("Заметки успешно экспортированы в файл.")
+    except IOError:
+        print("Ошибка при записи в файл.")
+
 
 
 def display_menu():
@@ -78,6 +91,7 @@ def display_menu():
     print("5. Редактировать заметку")
     print("6. Удалить заметку")
     print("7. Импортировать заметки из файла")
+    print("8. Экспортировать заметки в файл")
     print("9. Выход\n")
 
 def handle_choice(choice, notes_app):
@@ -90,6 +104,8 @@ def handle_choice(choice, notes_app):
         notes_app.delete_note()
     elif choice == '7':
         notes_app.import_notes()
+    elif choice == '8':
+        notes_app.export_notes()
     
     elif choice == '9':
         print("До свидания!")
