@@ -9,6 +9,11 @@ class NotesApp:
             choice = input("Выберите действие: ")
             if not handle_choice(choice, self):
                 break
+    def display_all_notes(self):
+        print("Список всех заметок:")
+        sorted_notes = sorted(self.notes, key=lambda x: x["priority"], reverse=True)
+        for i, note in enumerate(sorted_notes, 1):
+            print(f"{i}. Приоритет: {note['priority']}, Заметка: {note['text']}")
 
     def add_note(self):
         note_text = input("Введите текст заметки: ")
@@ -17,6 +22,7 @@ class NotesApp:
 
 def display_menu():
     print("\nМеню:")
+    print("1. Просмотреть все заметки")
     print("2. Добавить новую заметку")
     
 def handle_choice(choice, notes_app):
